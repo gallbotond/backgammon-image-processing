@@ -37,8 +37,8 @@ def run():
     selected_frames_unique = []  # array to store unique frames
 
     # image_compare_displacement = 15  # the distance between the compared images by index
-    image_compare_displacement = 15  # the distance between the compared images by index
-    difference_threshold = 4.0  # pick frames where the difference is less than this
+    image_compare_displacement = 10  # the distance between the compared images by index
+    difference_threshold = 6.0  # pick frames where the difference is less than this
     unique_difference_threshold = 8.0  # to save only the unique frames
 
     # save the parameters to a csv file
@@ -51,13 +51,13 @@ def run():
     while counter < number_of_frames:
         _, frame = frames.read()
         frame = cv2.resize(frame, (0, 0), fx=0.5, fy=0.5)
-        cv2.imshow('frame', frame)
+        # cv2.imshow('frame', frame)
 
         if counter % selected_frame_index == 0:  # append every nth frame
             selected_frames.append(frame)
             # print("added frame", counter)
 
-        # cv2.imshow("selected frame", selected_frames[-1])
+            # cv2.imshow("selected frame", selected_frames[-1])
 
         if (len(selected_frames) > image_compare_displacement):  # if we have enough frames to compare
             im1 = selected_frames[len(selected_frames) - image_compare_displacement]
@@ -70,6 +70,8 @@ def run():
             if diff < difference_threshold:
                 cv2.imshow("selected frame", selected_frames[-1])
                 selected_values.append({"x": len(difference_array), "y": diff})
+                # print("added frame", counter)
+                # cv2.waitKey(0)
 
 
                 if len(selected_frames_unique) == 0:
@@ -81,9 +83,10 @@ def run():
 
                     if difference_unique > unique_difference_threshold:
                         selected_frames_unique.append(selected_frames[-1])
-                        print("added frame", counter)
+                        print("added unique frame", counter)
                         cv2.imshow("selected frame unique", selected_frames[-1])
                         cv2.imwrite(f"./data/{current_time}/frame{len(selected_frames_unique)}.jpg", frame)
+                        cv2.waitKey(0)
 
         counter += 1
 
