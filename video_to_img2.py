@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import datetime
 import os
 import cv2
+import csv
 
 import util
 
@@ -40,6 +41,12 @@ def run():
     difference_threshold = 4.0  # pick frames where the difference is less than this
     unique_difference_threshold = 8.0  # to save only the unique frames
 
+    # save the parameters to a csv file
+    with open('parameters.csv', 'w', newline='') as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow(['Frame Rate', 'Number of Frames', 'Selected Frame Index', 'Image Compare Displacement', 'Difference Threshold', 'Unique Difference Threshold'])
+        writer.writerow([frame_rate, number_of_frames, selected_frame_index, image_compare_displacement, difference_threshold, unique_difference_threshold])
+
     counter = 0  # frame index
     while counter < number_of_frames:
         _, frame = frames.read()
@@ -57,7 +64,7 @@ def run():
             im2 = selected_frames[-1]
 
             diff = cv2.mean(cv2.absdiff(im1, im2))[0]
-            # print("difference", format(diff, ".2f")) # format the difference to 2 decimal places
+            print("difference", format(diff, ".2f")) # format the difference to 2 decimal places
             difference_array.append(diff)
 
             if diff < difference_threshold:
