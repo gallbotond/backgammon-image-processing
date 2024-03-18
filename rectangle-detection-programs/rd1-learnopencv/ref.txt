@@ -1,1 +1,0 @@
-https://learnopencv.com/automatic-document-scanner-using-opencv/#Getting-Started-with-OpenCV-Document-Scanner

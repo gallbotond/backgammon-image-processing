@@ -1,7 +1,7 @@
 import cv2
 
 # Open the camera
-cap = cv2.VideoCapture(5)
+cap = cv2.VideoCapture(1)
 # cap = cv2.VideoCapture('http://192.168.0.138:4747/video')
 
 # cv2.imshow('frame', cv2.imread('./img/im1.jpeg'))
