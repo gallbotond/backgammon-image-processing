@@ -1,7 +1,7 @@
 import cv2
 
 # Open the camera
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(2)
 
 while True:
     # Capture a frame

@@ -70,8 +70,8 @@ def run():
             if diff < difference_threshold:
                 cv2.imshow("selected frame", selected_frames[-1])
                 selected_values.append({"x": len(difference_array), "y": diff})
-                # print("added frame", counter)
-                # cv2.waitKey(0)
+                print("added frame", counter)
+                cv2.waitKey(0)
 
 
                 if len(selected_frames_unique) == 0:
