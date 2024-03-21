@@ -10,13 +10,13 @@ from util.frame_selection import *
 from util.helpers import *
 
 def run():
-    file1 = "./vid/2024-03-16 15-47-55.mp4"
+    file1 = "./vid/2024-03-16 15-47-55-1.mp4"
     name = "video_to_img2_refactor.py"
 
     frames = cv2.VideoCapture(file1)
 
     # set up arguments
-    save = True
+    save = False
     show_img = False
     pause = False
     log = False
@@ -43,12 +43,12 @@ def run():
 
     # comparison parameters
     image_compare_displacement = 5  # the distance between the compared images by index
-    difference_threshold = 1.5  # pick frames where the difference is less than this
-    unique_difference_threshold = 2.5  # to compare the last saved frame with the current selected frame
+    difference_threshold = 2.0  # pick frames where the difference is less than this
+    unique_difference_threshold = 2.3  # to compare the last saved frame with the current selected frame
 
     save_params_csv(save, folder, name, frame_rate, number_of_frames, selected_frame_index, image_compare_displacement, difference_threshold, unique_difference_threshold)
 
-    # Set the DPI and size in pixels
+    # Set the DPI and size in pixels for the plot
     dpi = 100
     width_pixels = 2000
     height_pixels = 500
@@ -68,6 +68,7 @@ def run():
 
     counter = 0  # frame index
     selected_counter = 0  # selected frame index
+    # heavy_cycles = 0 
 
     # loop through the video
     while counter < number_of_frames:
@@ -80,37 +81,39 @@ def run():
             selected_counter += 1
             if show_img: cv2.imshow(f"{selected_frame_index}. frame", selected_frames[-1])
 
-        if (len(selected_frames) > image_compare_displacement):  # if we have enough frames to compare
-            im1 = selected_frames[len(selected_frames) - image_compare_displacement]
-            im2 = selected_frames[-1]
+            if (len(selected_frames) > image_compare_displacement):  # if we have enough frames to compare
+                im1 = selected_frames[len(selected_frames) - image_compare_displacement]
+                im2 = selected_frames[-1]
 
-            diff = cv2.mean(cv2.absdiff(im1, im2))[0]
-            difference_array.append(diff)
+                diff = cv2.mean(cv2.absdiff(im1, im2))[0]
+                difference_array.append(diff)
 
-            line_array.append({"x": selected_counter, "y": diff})
+                line_array.append({"x": selected_counter, "y": diff})
 
-            if diff < difference_threshold: 
-                if show_img: cv2.imshow("selected frame", selected_frames[-1])
-                selected_difference_array.append({"x": len(difference_array), "y": diff})
-                selected_plot_array.append({"x": selected_counter, "y": diff})
+                if diff < difference_threshold: 
+                    if show_img: cv2.imshow("selected frame", selected_frames[-1])
+                    selected_difference_array.append({"x": len(difference_array), "y": diff})
+                    selected_plot_array.append({"x": selected_counter, "y": diff})
 
-                if len(selected_frames_unique) == 0: # if the unique array is empty, add the first frame
-                    selected_frames_unique.append(selected_frames[-1])
-                else:
-                    difference_unique = cv2.mean(cv2.absdiff(selected_frames_unique[-1], selected_frames[-1]))[0] # compare the last saved frame with the current selected frame
-                    if log: print("difference unique", format(difference_unique, ".2f"))
-
-                    if difference_unique > unique_difference_threshold:
+                    if len(selected_frames_unique) == 0: # if the unique array is empty, add the first frame
                         selected_frames_unique.append(selected_frames[-1])
-                        if log: print("added unique frame", counter)
-                        
-                        # add the unique frame position and name to the array
-                        selected_frame_array.append({"x": selected_counter, "name": f'frame{counter}.jpg'})
+                    else:
+                        difference_unique = cv2.mean(cv2.absdiff(selected_frames_unique[-1], selected_frames[-1]))[0] # compare the last saved frame with the current selected frame
+                        if log: print("difference unique", format(difference_unique, ".2f"))
 
-                        if show_img: cv2.imshow("selected frame unique", selected_frames[-1]) 
-                        save_frame(save, folder, selected_frames[-1], counter)
+                        if difference_unique > unique_difference_threshold:
+                            selected_frames_unique.append(selected_frames[-1])
+                            if log: print("added unique frame", counter)
+                            
+                            # add the unique frame position and name to the array
+                            selected_frame_array.append({"x": selected_counter, "name": f'frame{counter}.jpg'})
 
+                            if show_img: cv2.imshow("selected frame unique", selected_frames[-1]) 
+                            save_frame(save, folder, selected_frames[-1], counter)
+            
         counter += 1 # next frame
+
+    # print(heavy_cycles)
 
     # plot the values of line_array as a line plot
     plt.plot([x["x"] for x in line_array], [x["y"] for x in line_array], 'b-')

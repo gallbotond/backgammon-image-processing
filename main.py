@@ -15,10 +15,11 @@ files = sorted(files, key=os.path.getctime)
 
 images = [file for file in files if file.endswith('.jpg')]
 
-# for image in images:
-#     img = select_rectangle.run(image)
-#     position_scan.run(img)
-#     cv2.waitKey(0)
+for image in images:
+    img = select_rectangle.run(image)
+    # position_scan.run(img)
+    cv2.imshow("Corners and blobs", img)
+    cv2.waitKey(0)
 
-img = select_rectangle.run(images[-1])
-position_scan.run(img)
+# img = select_rectangle.run(images[-1])
+# position_scan.run(img)
