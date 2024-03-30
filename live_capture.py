@@ -7,6 +7,9 @@ cap = cv2.VideoCapture(0)
 # cv2.imshow('frame', cv2.imread('./img/im1.jpeg'))
 # cv2.waitKey(0)
 
+# reset the camera parameters (exposure etc.)
+
+
 while True:
     # Capture a frame
     ret, frame = cap.read()

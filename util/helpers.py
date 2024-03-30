@@ -41,24 +41,8 @@ def display_threshold_window(image):
     final_threshold = cv2.getTrackbarPos('Threshold', 'Threshold Image')
     return final_threshold
 
-def overflow_subtract(im1, im2):
-    # subtract im2 from im1 without overflow
-    result = np.zeros((im1.shape[0], im1.shape[1]), dtype='uint8')
-    for i in range(im1.shape[0]):
-        for j in range(im1.shape[1]):
-            val1 = im2[i][j].astype('int8')
-            val2 = im1[i][j].astype('int8')
-            res = val1 - val2
-            # make sure the value is not negative
-            if res < 0:
-                result[i][j] = 0
-            else:
-                result[i][j] = res
-
-    return result
-
-def blob_detect_center(img, min_size=200, max_size=400, erode_iterations = 20):
-    thresholded = cv2.threshold(img, 30, 255, cv2.THRESH_BINARY)[1]
+def blob_detect_center(img):
+    thresholded = cv2.threshold(img, 40, 255, cv2.THRESH_BINARY)[1]
     cv2.imshow("Thresholded", thresholded)
     cv2.waitKey(0)
     eroded = cv2.erode(thresholded, None, iterations=erode_iterations)
