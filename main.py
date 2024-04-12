@@ -3,6 +3,8 @@ import cv2
 
 import util.select_rectangle as select_rectangle
 import position_scan
+import get_dice_roi
+import util.dice_counter as dice_counter
 
 # select the last folder
 folder = os.listdir('./data')[-1]
@@ -21,8 +23,31 @@ images = [file for file in files if file.endswith('.jpg')]
 #     cv2.imshow("Corners and blobs", img)
 #     cv2.waitKey(0)
 
-img = select_rectangle.run('./test627450.jpg')
-position_scan.run(img)
+img = select_rectangle.run('test650783.jpg')
+original = img.copy()
 
-# save the warped image
-cv2.imwrite('warped.jpg', img)
+# cv2.imwrite('selected.jpg', img)
+cv2.imshow('selected', img)
+cv2.waitKey(0)
+green_centers, red_centers = position_scan.run(img)
+
+for center in green_centers:
+    cv2.circle(img, center, 2, (200, 200, 255), -1)
+for center in red_centers:
+    cv2.circle(img, center, 2, (0, 255, 0), -1)
+
+cv2.imshow("positions", img)
+cv2.waitKey(0)
+
+rois = get_dice_roi.run(original)
+
+for roi in rois:
+    cv2.imshow('roi', roi)
+    cv2.waitKey(0)
+
+    # count the dice
+    c = dice_counter.run(roi)
+    print(c)
+
+# # save the warped image
+# cv2.imwrite('warped.jpg', img)

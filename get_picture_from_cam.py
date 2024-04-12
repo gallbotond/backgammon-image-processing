@@ -2,7 +2,7 @@ import cv2
 import random
 
 # Open the camera
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(1)
 
 # Capture a frame
 ret, frame = cap.read()
