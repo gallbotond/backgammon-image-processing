@@ -42,12 +42,13 @@ cv2.waitKey(0)
 rois = get_dice_roi.run(original)
 
 for roi in rois:
-    cv2.imshow('roi', roi)
-    cv2.waitKey(0)
-
+    # cv2.imshow('roi', roi)
+    # cv2.waitKey(0)
     # count the dice
     c = dice_counter.run(roi)
     print(c)
+
+
 
 # # save the warped image
 # cv2.imwrite('warped.jpg', img)

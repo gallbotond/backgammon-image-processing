@@ -6,8 +6,8 @@ def run(image):
     _, threshed = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
     
     # show the thresholded image but make it bigger
-    cv2.imshow('threshed', cv2.resize(threshed, (0,0), fx=2, fy=2))
-    cv2.waitKey(0)
+    # cv2.imshow('threshed', cv2.resize(threshed, (0,0), fx=2, fy=2))
+    # cv2.waitKey(0)
     
     ## findcontours
     cnts = cv2.findContours(threshed, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)[-2]
