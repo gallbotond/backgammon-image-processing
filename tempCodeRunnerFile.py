@@ -1,1 +1,2 @@
-bitwise_xor
+
+    # count the dice

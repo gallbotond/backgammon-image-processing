@@ -16,7 +16,7 @@ def run():
     frames = cv2.VideoCapture(file1)
 
     # set up arguments
-    save = False
+    save = True
     show_img = False
     pause = False
     log = False
@@ -42,9 +42,9 @@ def run():
     line_array = []
 
     # comparison parameters
-    image_compare_displacement = 5  # the distance between the compared images by index
+    image_compare_displacement = 3  # the distance between the compared images by index
     difference_threshold = 2.0  # pick frames where the difference is less than this
-    unique_difference_threshold = 2.3  # to compare the last saved frame with the current selected frame
+    unique_difference_threshold = 2.5  # to compare the last saved frame with the current selected frame
 
     save_params_csv(save, folder, name, frame_rate, number_of_frames, selected_frame_index, image_compare_displacement, difference_threshold, unique_difference_threshold)
 

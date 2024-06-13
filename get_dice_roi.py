@@ -18,8 +18,9 @@ def run(im):
             cv2.circle(imcopy, center, radius, (0, 255, 0), 3)
             print(center, radius)
 
-    # cv2.imshow("Image", imcopy)
-    # cv2.waitKey(0)
+    cv2.imshow("circles", imcopy)
+    cv2.imwrite('circles.jpg', imcopy)
+    cv2.waitKey(0)
 
     # create a mask for the circles
     mask = np.zeros(im.shape[:2], dtype=np.uint8)
@@ -28,13 +29,15 @@ def run(im):
         radius = i[2]
         cv2.circle(mask, center, radius, (255), -1)
 
-    # cv2.imshow("Mask", mask)
-    # cv2.waitKey(0)
+    cv2.imshow("Mask", mask)
+    cv2.imwrite('mask.jpg', mask)
+    cv2.waitKey(0)
 
     # apply the mask to the image
     masked = cv2.bitwise_and(im, im, mask=mask)
-    # cv2.imshow("Masked", masked)
-    # cv2.waitKey(0)
+    cv2.imshow("Masked", masked)
+    cv2.imwrite('masked.jpg', masked)
+    cv2.waitKey(0)
 
     rois = []
     # save the circles to separate images
