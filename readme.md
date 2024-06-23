@@ -1,0 +1,1 @@
+This repo contains the source code for my bachelor's diploma work. The work is about the development of an image processing system, which processes recordings of a backgammon game into a text file containing the state of the game, where we can follow the player's decisions.
